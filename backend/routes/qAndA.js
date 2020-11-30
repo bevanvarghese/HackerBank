@@ -1,36 +1,44 @@
-const router = require('expresss').Router();
+const router = require('express').Router();
 let Question = require('../models/question_model');
 let Answer = require('../models/answer_model');
 
 exports.getAllQuestions = (req, res) => {
+  let questionData = [];
   Question
     .find()
-    .sort('time', -1)
+    .sort('-time')
+    .exec()
     .then(data => {
-      let questions = [];
       data.forEach(doc => {
-        questions.push({
+        questionData.push({
           qid: doc._id,
-          space: doc.data().space,
-          title: doc.data().title,
-          content: doc.data().content, 
-          time: doc.data().time,
-          upvotes: doc.data().upvotes,
-          creatorId: doc.data().creatorId,
-          creatorName: doc.data().creatorName,
+          space: doc.space,
+          title: doc.title,
+          content: doc.content, 
+          time: doc.time,
+          upvotes: doc.upvotes,
+          creatorId: doc.creatorId,
+          creatorName: doc.creatorName,
+          answers: [],
         });
       });
-      for(var q = 0; q < questions.length; q++) {
-        questions[q].answers = [];
-        Answer.find({qid: questions[q].qid}).sort('time', 1)
-        .then(data => {
-          data.forEach(doc => {
-            questions[q].answers.push(doc.data());
-          });
-        })
-        .catch(err => res.status(400).json({ error: err }));
-      }
-      return res.json(questions);
+      return Answer.find().sort('time').exec();
+    })
+    .then(answers => {
+      answers.forEach(ans => {
+        for(var i=0; i<questionData.length; i++) {
+          if(questionData[i].qid==ans.qid.toString()) {
+            questionData[i].answers.push({
+              content: ans.content,
+              creatorId: ans.creatorId,
+              creatorName: ans.creatorName,
+              time: ans.time,
+            });
+            break;
+          }
+        }
+      });
+      return res.status(200).json(questionData);
     })
     .catch(err => res.status(400).json({ error: err }));
 };
@@ -40,19 +48,32 @@ exports.getOneQuestion = (req, res) => {
   Question
     .findById(req.params.qid)
     .then(doc => {
-      if(doc=null) {
+      if(doc==null) {
         return res.status(404).json({ error: 'Question not found' });
       }
-      question.qid = doc._id;
-      question = doc.data();
-      return Answer.find({qid: req.params.qid}).sort('time', 1).exec();
+      question = {
+        qid: doc._id,
+        space: doc.space,
+        title: doc.title,
+        content: doc.content, 
+        time: doc.time,
+        upvotes: doc.upvotes,
+        creatorId: doc.creatorId,
+        creatorName: doc.creatorName,
+        answers: [],
+      };
+      return Answer.find({qid: req.params.qid}).sort('time').exec();
     })
     .then(data => {
-      question.answers = [];
-      data.forEach(doc => {
-        question.answers.push(doc.data());
+      data.forEach(ans => {
+        question.answers.push({
+          content: ans.content,
+          creatorId: ans.creatorId,
+          creatorName: ans.creatorName,
+          time: ans.time,
+        });
       });
-      return res.json(question);
+      return res.status(200).json(question);
     })
     .catch(err => res.status(400).json({ error: err }));
 };
@@ -64,8 +85,8 @@ exports.createQuestion = (req, res) => {
     content: req.body.content, 
     time: new Date(),
     upvotes: [],
-    creatorId: req.body.uid,
-    creatorName: req.body.uname,
+    creatorId: req.body.creatorId,
+    creatorName: req.body.creatorName,
   });
   newQuestion.save()
     .then(() => res.status(200).json({ message: 'Question added.' }))
@@ -95,7 +116,7 @@ exports.deleteQuestion = (req, res) => {
   //TODO Delete answers
 };
 
-exports.likeQuestion = (req, res) => {
+exports.likeQuestion = async (req, res) => {
   const qid = req.params.qid;
   const uid = req.body.uid;
   var question = await Question.findById(qid).exec();
@@ -114,7 +135,7 @@ exports.likeQuestion = (req, res) => {
   }
 };
 
-exports.unlikeQuestion = (req, res) => {
+exports.unlikeQuestion = async (req, res) => {
   const qid = req.params.qid;
   const uid = req.body.uid;
   var question = await Question.findById(qid).exec();
@@ -137,8 +158,8 @@ exports.createAnswer = (req, res) => {
   const newAnswer = new Answer({
     qid: req.params.qid,
     content: req.body.content,
-    creatorId: req.content.uid,
-    creatorName: req.content.uname,
+    creatorId: req.body.creatorId,
+    creatorName: req.body.creatorName,
     time: new Date(),
   });
   newAnswer.save()

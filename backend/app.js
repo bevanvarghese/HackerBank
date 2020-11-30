@@ -26,8 +26,8 @@ app.post('/questions/edit/:qid', editQuestion);
 app.delete('/questions/delete/:qid', deleteQuestion);
 app.post('/questions/like/:qid', likeQuestion);
 app.post('/questions/unlike/:qid', unlikeQuestion);
-app.post('/answers/create', createAnswer);
-app.delete('/questions/delete/:aid', deleteAnswer);
+app.post('/answers/create/:qid', createAnswer);
+app.delete('/answers/delete/:aid', deleteAnswer);
 
 app.listen(8000, () => {
   console.log('Server listening on port 8000.');
