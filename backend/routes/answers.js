@@ -4,7 +4,7 @@ let Answer = require('../models/answer_model');
 exports.getAllAnswers = (req, res) => {
   Answer
     .find()
-    .sort('time')
+    .sort('time', 1)
     .then(data => {
       let answers = [];
       data.forEach(doc => {

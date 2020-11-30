@@ -1,9 +1,11 @@
 const router = require('expresss').Router();
 let Question = require('../models/question_model');
+let Answer = require('../models/answer_model');
 
 exports.getAllQuestions = (req, res) => {
   Question
     .find()
+    .sort('time', -1)
     .then(data => {
       let questions = [];
       data.forEach(doc => {
@@ -18,6 +20,16 @@ exports.getAllQuestions = (req, res) => {
           creatorName: doc.data().creatorName,
         });
       });
+      for(var q = 0; q < questions.length; q++) {
+        questions[q].answers = [];
+        Answer.find({qid: questions[q]}).sort('time', 1)
+        .then(data => {
+          data.forEach(doc => {
+            questions[q].answers.push(doc.data());
+          });
+        })
+        .catch(err => res.status(400).json({ error: err }));
+      }
       return res.json(questions);
     })
     .catch(err => res.status(400).json({ error: err }));
@@ -33,7 +45,13 @@ exports.getOneQuestion = (req, res) => {
       }
       question.qid = doc._id;
       question = doc.data();
-      //TODO get answers
+      return Answer.find({qid: req.params.qid}).sort('time', 1).exec();
+    })
+    .then(data => {
+      question.answers = [];
+      data.forEach(doc => {
+        question.answers.push(doc.data());
+      });
       return res.json(question);
     })
     .catch(err => res.status(400).json({ error: err }));
@@ -113,4 +131,24 @@ exports.unlikeQuestion = (req, res) => {
   else {
     return res.status(400).json({ error: 'Question not found.'});
   }
+};
+
+exports.createAnswer = (req, res) => {
+  const newAnswer = new Answer({
+    qid: req.params.qid,
+    content: req.body.content,
+    creatorId: req.content.uid,
+    creatorName: req.content.uname,
+    time: new Date(),
+  });
+  newAnswer.save()
+    .then(() => res.status(200).json({ message: 'Answer added.' }))
+    .catch(err => res.status(400).json({ error: err }));
+};
+
+exports.deleteAnswer = (req, res) => {
+  const aid = req.params.aid;
+  Answer.findByIdAndDelete(aid)
+    .then(() => res.status(200).json({ message: 'Answer deleted.' }))
+    .catch(err => res.status(400).json({ error: err }));
 };
