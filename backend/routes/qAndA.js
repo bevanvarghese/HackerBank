@@ -22,7 +22,7 @@ exports.getAllQuestions = (req, res) => {
       });
       for(var q = 0; q < questions.length; q++) {
         questions[q].answers = [];
-        Answer.find({qid: questions[q]}).sort('time', 1)
+        Answer.find({qid: questions[q].qid}).sort('time', 1)
         .then(data => {
           data.forEach(doc => {
             questions[q].answers.push(doc.data());
@@ -55,7 +55,7 @@ exports.getOneQuestion = (req, res) => {
       return res.json(question);
     })
     .catch(err => res.status(400).json({ error: err }));
-}
+};
 
 exports.createQuestion = (req, res) => {
   const newQuestion = new Question({
