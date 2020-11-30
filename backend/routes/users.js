@@ -26,18 +26,18 @@ exports.register = (req, res) => {
 
 exports.login = (req, res) => {
   const user = {
-    email: req.body.enail,
+    email: req.body.email,
     password: req.body.password,
   };
   User
-    .find({email: req.body.email})
+    .find({email: user.email})
     .then(result => {
       if(result.length==0) {
         return res.status(400).json({ error: "User is not registered."});
       } 
       else {
         if(result[0]["password"]==user.password) {
-          return res.status(200).json({ message: 'Login successful.' });
+          return res.status(200).json({ message: 'Login successful.', uid: result[0]["_id"], uname: result[0]["name"] });
         } else {
           return res.status(400).json({ error: 'Unauthorized access.' });
         }
@@ -46,4 +46,4 @@ exports.login = (req, res) => {
     .catch((err) => {
       return res.status(400).json({ error: err});
     });
-}
+};

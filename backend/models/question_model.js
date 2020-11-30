@@ -15,7 +15,7 @@ const questionSchema = new Schema({
     type: String,
     required: true
   },
-  answer:  { 
+  answers:  { 
     type : [Schema.Types.ObjectId] , 
     "default" : [] 
   },
