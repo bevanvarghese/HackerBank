@@ -1,7 +1,7 @@
 const router = require('expresss').Router();
 let Question = require('../models/question_model');
 
-exports.getQuestions = (req, res) => {
+exports.getAllQuestions = (req, res) => {
   Question
     .find()
     .then(data => {
@@ -23,6 +23,22 @@ exports.getQuestions = (req, res) => {
     })
     .catch(err => res.status(400).json({ error: err }));
 };
+
+exports.getOneQuestion = (req, res) => {
+  let question = {};
+  Question
+    .findById(req.params.qid)
+    .then(doc => {
+      if(doc=null) {
+        return res.status(404).json({ error: 'Question not found' });
+      }
+      question.qid = doc._id;
+      question = doc.data();
+      //TODO get answers
+      return res.json(question);
+    })
+    .catch(err => res.status(400).json({ error: err }));
+}
 
 exports.createQuestion = (req, res) => {
   const newQuestion = new Question({
@@ -68,8 +84,8 @@ exports.likeQuestion = (req, res) => {
   const uid = req.body.uid;
   var question = await Question.findById(qid).exec();
   if(question != null) {
-    if(question.answers.indexOf(uid)==-1) {
-      question.answers.push(uid);
+    if(question.upvotes.indexOf(uid)==-1) {
+      question.upvotes.push(uid);
       question.save();
       return res.status(200).json({ message: 'Question upvoted.'});
     } 
@@ -87,8 +103,8 @@ exports.unlikeQuestion = (req, res) => {
   const uid = req.body.uid;
   var question = await Question.findById(qid).exec();
   if(question != null) {
-    if(question.answers.indexOf(uid)!=-1){
-      question.answers.splice(question.answers.indexOf(uid), 1);
+    if(question.upvotes.indexOf(uid)!=-1){
+      question.upvotes.splice(question.upvotes.indexOf(uid), 1);
       question.save();
       return res.status(200).json({ message: 'Question unvoted.'});
     } 
