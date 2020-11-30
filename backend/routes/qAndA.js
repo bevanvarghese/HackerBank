@@ -111,9 +111,9 @@ exports.editQuestion = (req, res) => {
 exports.deleteQuestion = (req, res) => {
   const qid = req.params.qid;
   Question.findByIdAndDelete(qid)
+    .then(() => Answer.deleteMany({qid: qid}).exec())
     .then(() => res.status(200).json({ message: 'Question deleted.' }))
     .catch(err => res.status(400).json({ error: err }));
-  //TODO Delete answers
 };
 
 exports.likeQuestion = async (req, res) => {
