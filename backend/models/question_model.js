@@ -15,10 +15,6 @@ const questionSchema = new Schema({
     type: String,
     required: true
   },
-  answers:  { 
-    type : [Schema.Types.ObjectId] , 
-    "default" : [] 
-  },
   upvotes:  { 
     type : [Schema.Types.ObjectId], 
     "default" : [] 

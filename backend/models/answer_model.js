@@ -18,7 +18,10 @@ const answerSchema = new Schema({
   creatorName: {
     type: String,
     required: true
-  }
+  },
+  time: { 
+    type: Date
+  }, //TODO
 });
 
 const Answer = mongoose.model('Answer', answerSchema);
