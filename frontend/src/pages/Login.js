@@ -22,38 +22,38 @@ class Login extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     console.log(this.state);
-    if (this.state.email == '' || this.state.password == '') {
+
+    const loginData = {
+      email: this.state.email,
+      password: this.state.password,
+    };
+    let emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(loginData),
+    };
+
+    if (loginData.email == '' || loginData.password == '') {
       this.setState({ errors: 'Fields cannot be empty.' });
+    } else if (!emailRegEx.test(this.state.email)) {
+      this.setState({ errors: 'Please enter a valid email.' });
     } else {
-      let emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      if (!emailRegEx.test(this.state.email)) {
-        this.setState({ errors: 'Invalid email address entered.' });
-      } else {
-        this.setState({ errors: '' });
-        const loginData = {
-          email: this.state.email,
-          password: this.state.password,
-        };
-        const requestOptions = {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(loginData),
-        };
-        fetch('http://localhost:8000/login', requestOptions)
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.error) {
-              this.setState({ errors: data.error });
-            } else if (data.message) {
-              localStorage.setItem('uid', data.uid);
-              localStorage.setItem('uname', data.uname);
-              this.props.history.push('/');
-            }
-          })
-          .catch((err) =>
-            this.setState({ errors: 'Something went wrong. Please try again.' })
-          );
-      }
+      this.setState({ errors: '' });
+      fetch('http://localhost:8000/login', requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.error) {
+            this.setState({ errors: data.error });
+          } else if (data.message) {
+            localStorage.setItem('uid', data.uid);
+            localStorage.setItem('uname', data.uname);
+            this.props.history.push('/');
+          }
+        })
+        .catch((err) =>
+          this.setState({ errors: 'Something went wrong. Please try again.' })
+        );
     }
   };
 
