@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router-dom';
 import NavBack from '../components/NavBack';
 
 export class Register extends Component {
@@ -80,7 +79,6 @@ export class Register extends Component {
               name='name'
               label='Name'
               type='text'
-              value={this.state.name}
               placeholder='Name'
               value={this.state.name}
               onChange={this.handleChange}
@@ -92,7 +90,6 @@ export class Register extends Component {
               name='email'
               label='Email'
               type='email'
-              value={this.state.email}
               placeholder='Email'
               value={this.state.email}
               onChange={this.handleChange}
@@ -104,7 +101,6 @@ export class Register extends Component {
               name='password'
               label='Password'
               type='password'
-              value={this.state.password}
               placeholder='Password'
               value={this.state.password}
               onChange={this.handleChange}
@@ -116,7 +112,6 @@ export class Register extends Component {
               name='cPassword'
               label='Confirm Password'
               type='password'
-              value={this.state.cPassword}
               placeholder='Confirm Password'
               value={this.state.cPassword}
               onChange={this.handleChange}
@@ -127,11 +122,6 @@ export class Register extends Component {
           </form>
           <p style={{ color: 'red' }}>{this.state.errors}</p>
         </div>
-        <p>Do not have an account?</p>
-        <br />
-        <button>
-          <Link to='/register'>Register</Link>
-        </button>
       </Fragment>
     );
   }

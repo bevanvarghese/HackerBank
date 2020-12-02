@@ -3,14 +3,24 @@ import { Link } from 'react-router-dom';
 
 export class NavBack extends Component {
   render() {
-    const style = {
+    const divStyle = {
       backgroundColor: 'lightGray',
       width: '100%',
+      height: '5vw',
+    };
+    const linkStyle = {
+      color: 'blue',
+      textDecoration: 'none',
+      ':hover': {
+        textDecoration: 'underline',
+      },
     };
 
     return (
-      <div style={style}>
-        <Link to='/'>back</Link>
+      <div style={divStyle}>
+        <Link to='/' style={linkStyle}>
+          back
+        </Link>
       </div>
     );
   }
