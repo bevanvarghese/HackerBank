@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import NavBack from '../components/NavBack';
 import AnswerForm from '../components/AnswerForm';
 import DeleteAnswer from '../components/DeleteAnswer';
-import Upvote from '../components/Upvote';
+import { BsFillTriangleFill, BsTriangle } from 'react-icons/bs';
 
 const Answer = ({ creatorId, creatorName, time, content, uid, aid }) => {
   return (
@@ -85,7 +85,7 @@ class Question extends Component {
     fetch(`http://localhost:8000/questions/delete/${this.state.qid}`, {
       method: 'DELETE',
     })
-      .then((res) => res.json()) // or res.json()
+      .then((res) => res.json())
       .then((res) => this.props.history.push('/'));
   };
 
@@ -204,11 +204,20 @@ class Question extends Component {
       );
 
     let voteButton = !this.state.uid ? (
-      <button disabled='true'>Upvote</button>
+      <button className='voteButton' disabled='true'>
+        <BsTriangle />
+        <span> Upvote</span>
+      </button>
     ) : this.state.upvotes.includes(this.state.uid) ? (
-      <button onClick={this.unlikeQuestion}>Unvote</button>
+      <button className='voteButton' onClick={this.unlikeQuestion}>
+        <BsFillTriangleFill />
+        <span> Unvote</span>
+      </button>
     ) : (
-      <button onClick={this.likeQuestion}>Upvote</button>
+      <button className='voteButton' onClick={this.likeQuestion}>
+        <BsTriangle />
+        <span> Upvote</span>
+      </button>
     );
 
     const questionCard = this.state.edit ? (
