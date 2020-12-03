@@ -206,7 +206,7 @@ class Question extends Component {
             onClick={this.handleSelect}
             required
           />
-          Javascript
+          JavaScript
           <br />
           <br />
           Content

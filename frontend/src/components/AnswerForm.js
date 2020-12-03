@@ -75,8 +75,16 @@ class AnswerForm extends Component {
           />
           <p style={{ color: 'red' }}>{this.state.errors}</p>
           <br />
-          <button onClick={this.handleSubmit}>Submit</button>
-          <button onClick={this.makeInactive}>Cancel</button>
+          <button className='editQuestionButton' onClick={this.handleSubmit}>
+            Submit
+          </button>
+          <button
+            className='editQuestionButton'
+            style={{ marginLeft: '10px' }}
+            onClick={this.makeInactive}
+          >
+            Cancel
+          </button>
         </form>
       </div>
     ) : (
