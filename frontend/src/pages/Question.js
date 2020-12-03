@@ -144,15 +144,13 @@ class Question extends Component {
     }
   };
 
-  likeQuestion = () => {
+  likeQuestion = (event) => {
     const like = { uid: this.state.uid };
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(like),
     };
-    console.log(like);
-    console.log(requestOptions);
     fetch(
       `http://localhost:8000/questions/like/${this.state.qid}`,
       requestOptions
@@ -162,20 +160,22 @@ class Question extends Component {
         if (data.error) {
           console.log({ errors: data.error });
         } else if (data.message) {
-          this.setState((prevState) => {
-            return { voted: true, numvotes: prevState.numvotes + 1 };
+          this.setState({
+            upvotes: [...this.state.upvotes, this.state.uid],
           });
         }
       });
   };
 
-  unlikeQuestion = () => {
+  unlikeQuestion = (event) => {
     const unlike = { uid: this.state.uid };
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(unlike),
     };
+    var tempUpvotes = [...this.state.upvotes];
+    tempUpvotes.splice(tempUpvotes.indexOf(this.state.uid), 1);
     fetch(
       `http://localhost:8000/questions/unlike/${this.state.qid}`,
       requestOptions
@@ -185,8 +185,8 @@ class Question extends Component {
         if (data.error) {
           console.log({ errors: data.error });
         } else if (data.message) {
-          this.setState((prevState) => {
-            return { voted: false, numvotes: prevState.numvotes - 1 };
+          this.setState({
+            upvotes: tempUpvotes,
           });
         }
       });
@@ -202,6 +202,14 @@ class Question extends Component {
       ) : (
         ''
       );
+
+    let voteButton = !this.state.uid ? (
+      <button disabled='true'>Upvote</button>
+    ) : this.state.upvotes.includes(this.state.uid) ? (
+      <button onClick={this.unlikeQuestion}>Unvote</button>
+    ) : (
+      <button onClick={this.likeQuestion}>Upvote</button>
+    );
 
     const questionCard = this.state.edit ? (
       <div className='questionCard'>
@@ -280,14 +288,8 @@ class Question extends Component {
     ) : (
       <div className='questionCard'>
         <div className='questionHead'>
-          {this.state.uid != null && (
-            <Upvote
-              voted={this.state.upvotes.includes(this.state.uid)}
-              likeQuestion={this.likeQuestion}
-              unlikeQuestion={this.unlikeQuestion}
-            />
-          )}
-          <span>{this.state.upvotes.length}</span>
+          {voteButton}
+          <span> ({this.state.upvotes.length})</span>
           {editAndDel}
         </div>
         <div className='questionMain'>
@@ -301,8 +303,6 @@ class Question extends Component {
         </div>
       </div>
     );
-
-    //const editForm - state.edit ?
 
     const answerCards = this.state.answers.map((answer) => (
       <Answer
