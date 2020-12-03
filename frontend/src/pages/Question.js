@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import NavBack from '../components/NavBack';
 import AnswerForm from '../components/AnswerForm';
 import DeleteAnswer from '../components/DeleteAnswer';
+import Upvote from '../components/Upvote';
 
 const Answer = ({ creatorId, creatorName, time, content, uid, aid }) => {
   return (
@@ -231,9 +232,14 @@ class Question extends Component {
     ) : (
       <div className='questionCard'>
         <div className='questionHead'>
-          <span className='upvotes'>
-            ^ upvote ({this.state.upvotes.length})
-          </span>
+          {this.state.uid != null && (
+            <Upvote
+              uid={this.state.uid}
+              qid={this.props.match.params.qid}
+              voted={this.state.upvotes.includes(this.state.uid)}
+              numvotes={this.state.upvotes.length}
+            />
+          )}
           {editAndDel}
         </div>
         <div className='questionMain'>

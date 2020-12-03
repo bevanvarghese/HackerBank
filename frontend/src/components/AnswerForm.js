@@ -12,7 +12,6 @@ class AnswerForm extends Component {
       content: '',
       errors: '',
     };
-    console.log('AF', this.state);
   }
 
   makeActive = (event) => {
