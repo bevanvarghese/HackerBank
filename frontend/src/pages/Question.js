@@ -144,6 +144,54 @@ class Question extends Component {
     }
   };
 
+  likeQuestion = () => {
+    const like = { uid: this.state.uid };
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(like),
+    };
+    console.log(like);
+    console.log(requestOptions);
+    fetch(
+      `http://localhost:8000/questions/like/${this.state.qid}`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          console.log({ errors: data.error });
+        } else if (data.message) {
+          this.setState((prevState) => {
+            return { voted: true, numvotes: prevState.numvotes + 1 };
+          });
+        }
+      });
+  };
+
+  unlikeQuestion = () => {
+    const unlike = { uid: this.state.uid };
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(unlike),
+    };
+    fetch(
+      `http://localhost:8000/questions/unlike/${this.state.qid}`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          console.log({ errors: data.error });
+        } else if (data.message) {
+          this.setState((prevState) => {
+            return { voted: false, numvotes: prevState.numvotes - 1 };
+          });
+        }
+      });
+  };
+
   render() {
     const editAndDel =
       this.state.uid == this.state.askerId ? (
@@ -234,12 +282,12 @@ class Question extends Component {
         <div className='questionHead'>
           {this.state.uid != null && (
             <Upvote
-              uid={this.state.uid}
-              qid={this.props.match.params.qid}
               voted={this.state.upvotes.includes(this.state.uid)}
-              numvotes={this.state.upvotes.length}
+              likeQuestion={this.likeQuestion}
+              unlikeQuestion={this.unlikeQuestion}
             />
           )}
+          <span>{this.state.upvotes.length}</span>
           {editAndDel}
         </div>
         <div className='questionMain'>
