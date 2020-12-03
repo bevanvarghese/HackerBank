@@ -40,6 +40,8 @@ class Question extends Component {
       answers: [],
       upvotes: [],
       answer: '',
+      edit: false,
+      errors: '',
     };
 
     const qid = this.props.match.params.qid;
@@ -86,18 +88,147 @@ class Question extends Component {
       .then((res) => this.props.history.push('/'));
   };
 
+  showEdit = (event) => {
+    this.setState({ edit: true });
+  };
+
+  handleChange = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  handleSelect = (event) => {
+    this.setState({
+      space: event.target.value,
+    });
+  };
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const question = {
+      title: this.state.title,
+      space: this.state.space,
+      content: this.state.content,
+    };
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(question),
+    };
+
+    if (
+      question.title == '' ||
+      question.space == '' ||
+      question.content == ''
+    ) {
+      this.setState({ errors: 'Fields cannot be empty.' });
+    } else {
+      this.setState({ errors: '' });
+      fetch(
+        `http://localhost:8000/questions/edit/${this.state.qid}`,
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.error) {
+            this.setState({ errors: data.error });
+          } else if (data.message) {
+            window.location.reload();
+          }
+        })
+        .catch((err) =>
+          this.setState({ errors: 'Something went wrong. Please try again.' })
+        );
+    }
+  };
+
   render() {
     const editAndDel =
       this.state.uid == this.state.askerId ? (
         <span className='editDelete'>
-          <button>edit</button>
+          <button onClick={this.showEdit}>edit</button>
           <button onClick={this.deleteQuestion}>delete</button>
         </span>
       ) : (
         ''
       );
 
-    const questionCard = (
+    const questionCard = this.state.edit ? (
+      <div className='questionCard'>
+        <form>
+          Title
+          <br />
+          <input
+            type='text'
+            id='title'
+            name='title'
+            value={this.state.title}
+            onChange={this.handleChange}
+            required
+          />
+          <br />
+          <br />
+          Space
+          <br />
+          <input
+            type='radio'
+            name='space'
+            value='Algorithm'
+            defaultChecked={this.state.space == 'Algorithm'}
+            onClick={this.handleSelect}
+            required
+          />
+          Algorithm
+          <input
+            type='radio'
+            name='space'
+            value='Machine Learning'
+            defaultChecked={this.state.space == 'Machine Learning'}
+            onClick={this.handleSelect}
+            required
+          />
+          Machine Learning
+          <input
+            type='radio'
+            name='space'
+            value='System'
+            defaultChecked={this.state.space == 'System'}
+            onClick={this.handleSelect}
+            required
+          />
+          System
+          <input
+            type='radio'
+            name='space'
+            value='JavaScript'
+            defaultChecked={this.state.space == 'JavaScript'}
+            onClick={this.handleSelect}
+            required
+          />
+          Javascript
+          <br />
+          <br />
+          Content
+          <br />
+          <textarea
+            id='content'
+            name='content'
+            rows='4'
+            cols='50'
+            value={this.state.content}
+            onChange={this.handleChange}
+            required
+          />
+          <br />
+          <br />
+          <button className='editQuestionButton' onClick={this.handleSubmit}>
+            Submit
+          </button>
+        </form>
+        <p style={{ color: 'red' }}>{this.state.errors}</p>
+      </div>
+    ) : (
       <div className='questionCard'>
         <div className='questionHead'>
           <span className='upvotes'>

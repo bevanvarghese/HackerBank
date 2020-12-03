@@ -112,7 +112,7 @@ class Ask extends Component {
             <input
               type='radio'
               name='space'
-              value='Javascript'
+              value='JavaScript'
               onClick={this.handleSelect}
               required
             />

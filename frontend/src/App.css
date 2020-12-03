@@ -80,3 +80,18 @@ body {
 .Placeholder {
   color: gray;
 }
+
+.editQuestionButton {
+  background: white;
+  box-shadow: 2px 2px 2px black;
+  border: 1px solid black;
+  text-shadow: 0px 0px 0px transparent;
+  border-radius: 5px;
+  color: black;
+  cursor: pointer;
+  padding: 5px 20px;
+}
+
+.editQuestionButton:hover {
+  background: rgb(207, 243, 255);
+}

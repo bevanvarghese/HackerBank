@@ -62,12 +62,7 @@ class AnswerForm extends Component {
   };
 
   render() {
-    const inactive = (
-      <div className='Placeholder' onClick={this.makeActive}>
-        <p>Post your new answer...</p>
-      </div>
-    );
-    const active = (
+    const show = this.state.active ? (
       <div>
         <form>
           <textarea
@@ -84,6 +79,10 @@ class AnswerForm extends Component {
           <button onClick={this.makeInactive}>Cancel</button>
         </form>
       </div>
+    ) : (
+      <div className='Placeholder' onClick={this.makeActive}>
+        <p>Post your new answer...</p>
+      </div>
     );
 
     return (
@@ -91,7 +90,7 @@ class AnswerForm extends Component {
         <div className='answerHead'>
           <span className='creator'>{this.state.uname}</span>
         </div>
-        {this.state.active ? active : inactive}
+        {show}
       </div>
     );
   }
