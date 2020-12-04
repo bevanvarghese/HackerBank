@@ -64,40 +64,68 @@ class Login extends Component {
     return (
       <Fragment>
         <NavBack />
-        <div className='formContainer'>
-          <h2>SIGN IN</h2>
-          <form>
-            <input
-              id='email'
-              name='email'
-              label='Email'
-              type='email'
-              placeholder='Email'
-              value={this.state.email}
-              onChange={this.handleChange}
-              required
-            />
-            <br />
-            <input
-              id='password'
-              name='password'
-              label='Password'
-              type='password'
-              placeholder='Password'
-              value={this.state.password}
-              onChange={this.handleChange}
-              required
-            />
-            <br />
-            <button onClick={this.handleSubmit}>LOG IN</button>
-          </form>
-          <p style={{ color: 'red' }}>{this.state.errors}</p>
+        <div className='outer'>
+          <div className='middle'>
+            <div className='inner'>
+              <div className='formContainer'>
+                <p className='formTitle'>Sign In</p>
+                <form>
+                  <div className='formItem'>
+                    <label className='formLabel' for='email'>
+                      Email:
+                    </label>
+                    <input
+                      id='email'
+                      name='email'
+                      type='email'
+                      placeholder='Email'
+                      value={this.state.email}
+                      onChange={this.handleChange}
+                      className='formInput'
+                      required
+                    />
+                  </div>
+                  <div className='formItem'>
+                    <label className='formLabel' for='password'>
+                      Password:
+                    </label>
+                    <input
+                      id='password'
+                      name='password'
+                      type='password'
+                      placeholder='Password'
+                      value={this.state.password}
+                      onChange={this.handleChange}
+                      className='formInput'
+                      required
+                    />
+                  </div>
+
+                  {this.state.errors && (
+                    <span class='formError'>
+                      <br />
+                      {this.state.errors}
+                      <br />
+                    </span>
+                  )}
+
+                  <br />
+                  <button className='formButton' onClick={this.handleSubmit}>
+                    Log In
+                  </button>
+                </form>
+              </div>
+
+              <p>Do not have an account?</p>
+              <button
+                className='formButton'
+                onClick={() => this.props.history.push('/register')}
+              >
+                Register
+              </button>
+            </div>
+          </div>
         </div>
-        <p>Do not have an account?</p>
-        <br />
-        <button>
-          <Link to='/register'>Register</Link>
-        </button>
       </Fragment>
     );
   }
