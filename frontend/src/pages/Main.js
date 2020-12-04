@@ -19,6 +19,8 @@ class Main extends Component {
       space: ['Algorithm', 'Machine Learning', 'System', 'JavaScript'],
       search: '',
       expandedQuestionId: '',
+      ansFormOpen: false,
+      ansFormValue: '',
     };
 
     fetch(`http://localhost:8000/questions`)
@@ -127,11 +129,49 @@ class Main extends Component {
   handleExpansion = (qid) => {
     if (this.state.expandedQuestionId == qid) {
       this.setState({ expandedQuestionId: '' });
-    } else if (this.state.expandedQuestionId == '') {
-      this.setState({ expandedQuestionId: qid });
     } else {
-      this.setState({ expandedQuestionId: qid });
+      this.setState({
+        expandedQuestionId: qid,
+        ansFormOpen: false,
+        ansFormValue: '',
+      });
     }
+  };
+
+  handleAnsFormChange = (event) => {
+    this.setState({ ansFormValue: event.target.value });
+  };
+
+  submitAnswer = (qid, qIndex) => {
+    const answer = {
+      content: this.state.ansFormValue,
+      creatorId: this.state.uid,
+      creatorName: this.state.uname,
+    };
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(answer),
+    };
+    fetch(`http://localhost:8000/answers/create/${qid}`, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.message) {
+          var temp = this.state.questions;
+          const ans = {
+            content: this.state.ansFormValue,
+            creatorId: this.state.uid,
+            creatorName: this.state.uname,
+            time: new Date(),
+          };
+          temp[qIndex]['answers'] = [...temp[qIndex]['answers'], ans];
+          this.setState({
+            questions: temp,
+            ansFormOpen: false,
+            ansFormValue: '',
+          });
+        }
+      });
   };
 
   render() {
@@ -300,6 +340,60 @@ class Main extends Component {
                 </div>
                 <div className='answerBody'>
                   <p className='answerContent'>{answer.content}</p>
+                </div>
+              </div>
+            ))}
+          {this.state.loggedIn &&
+            this.state.expandedQuestionId == question.qid &&
+            (this.state.ansFormOpen ? (
+              <div className='answerForm'>
+                <div className='answerHead'>
+                  <span className='creator'>{this.state.uname}</span>
+                </div>
+                <div>
+                  <form>
+                    <textarea
+                      id='content'
+                      name='content'
+                      rows='4'
+                      cols='50'
+                      value={this.state.ansFormValue}
+                      onChange={this.handleAnsFormChange}
+                    />
+                    <br />
+                    <button
+                      className='editQuestionButton'
+                      disabled={this.state.ansFormValue == ''}
+                      onClick={() => {
+                        this.submitAnswer(
+                          question.qid,
+                          this.state.questions.indexOf(question)
+                        );
+                      }}
+                    >
+                      Submit
+                    </button>
+                    <button
+                      className='editQuestionButton'
+                      style={{ marginLeft: '10px' }}
+                      onClick={() =>
+                        this.setState({ ansFormValue: '', ansFormOpen: false })
+                      }
+                    >
+                      Cancel
+                    </button>
+                  </form>
+                </div>
+              </div>
+            ) : (
+              <div className='answerForm'>
+                <div className='answerHead'>
+                  <span className='creator'>{this.state.uname}</span>
+                </div>
+                <div className='Placeholder'>
+                  <p onClick={() => this.setState({ ansFormOpen: true })}>
+                    Post your new answer...
+                  </p>
                 </div>
               </div>
             ))}

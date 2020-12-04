@@ -102,6 +102,13 @@ body {
   background: rgb(207, 243, 255);
 }
 
+.editQuestionButton:disabled {
+  background: white;
+  text-decoration: none;
+  color: gray;
+  cursor: not-allowed;
+}
+
 .voteButton {
   background: white;
   border: 0px solid black;
