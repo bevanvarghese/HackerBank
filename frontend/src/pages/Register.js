@@ -73,57 +73,103 @@ export class Register extends Component {
   render() {
     return (
       <Fragment>
-        <NavBack />
-        <div className='formContainer'>
-          <h2>Create an account</h2>
-          <form>
-            <input
-              id='name'
-              name='name'
-              label='Name'
-              type='text'
-              placeholder='Name'
-              value={this.state.name}
-              onChange={this.handleChange}
-              required
-            />
-            <br />
-            <input
-              id='email'
-              name='email'
-              label='Email'
-              type='email'
-              placeholder='Email'
-              value={this.state.email}
-              onChange={this.handleChange}
-              required
-            />
-            <br />
-            <input
-              id='password'
-              name='password'
-              label='Password'
-              type='password'
-              placeholder='Password'
-              value={this.state.password}
-              onChange={this.handleChange}
-              required
-            />
-            <br />
-            <input
-              id='cPassword'
-              name='cPassword'
-              label='Confirm Password'
-              type='password'
-              placeholder='Confirm Password'
-              value={this.state.cPassword}
-              onChange={this.handleChange}
-              required
-            />
-            <br />
-            <button onClick={this.handleSubmit}>Register</button>
-          </form>
-          <p style={{ color: 'red' }}>{this.state.errors}</p>
+        <div className='navBack'>
+          <button
+            onClick={() => this.props.history.push('/')}
+            className='navBackLink'
+            to='/'
+          >
+            Back
+          </button>
+        </div>
+        <div className='outer'>
+          <div className='middle'>
+            <div className='inner'>
+              <div className='formContainer'>
+                <p className='formTitle'>Create an account</p>
+                <form>
+                  <div className='formItem'>
+                    <label className='formLabel' for='name'>
+                      Name
+                    </label>
+                    <input
+                      id='name'
+                      name='name'
+                      label='Name'
+                      type='text'
+                      className='formInput'
+                      placeholder='Name'
+                      value={this.state.name}
+                      onChange={this.handleChange}
+                      required
+                    />
+                  </div>
+                  <br />
+                  <div className='formItem'>
+                    <label className='formLabel' for='email'>
+                      Email
+                    </label>
+                    <input
+                      id='email'
+                      name='email'
+                      label='Email'
+                      type='email'
+                      className='formInput'
+                      placeholder='Email'
+                      value={this.state.email}
+                      onChange={this.handleChange}
+                      required
+                    />
+                  </div>
+                  <br />
+                  <div className='formItem'>
+                    <label className='formLabel' for='password'>
+                      Password
+                    </label>
+                    <input
+                      id='password'
+                      name='password'
+                      label='Password'
+                      type='password'
+                      className='formInput'
+                      placeholder='Password'
+                      value={this.state.password}
+                      onChange={this.handleChange}
+                      required
+                    />
+                  </div>
+                  <br />
+                  <div className='formItem'>
+                    <label className='formLabel' for='cPassword'>
+                      Confirm Password
+                    </label>
+                    <input
+                      id='cPassword'
+                      name='cPassword'
+                      label='Confirm Password'
+                      type='password'
+                      className='formInput'
+                      placeholder='Confirm Password'
+                      value={this.state.cPassword}
+                      onChange={this.handleChange}
+                      required
+                    />
+                  </div>
+                  <br />
+                  {this.state.errors && (
+                    <span class='formError'>
+                      <br />
+                      {this.state.errors}
+                      <br />
+                    </span>
+                  )}
+                  <button className='formButton' onClick={this.handleSubmit}>
+                    Register
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       </Fragment>
     );

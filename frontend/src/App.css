@@ -1,5 +1,5 @@
 body {
-  background: #f6f7f9;
+  background: rgb(231, 238, 255);
 }
 
 .questionCard {
@@ -67,7 +67,7 @@ body {
 
 .answerCard {
   width: 95%;
-  background: rgb(250, 255, 250);
+  background: rgb(230, 255, 243);
   margin: 10px 0% 0px auto;
   border-radius: 5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -222,12 +222,18 @@ body {
   max-width: 450px;
 }
 
+.innerException {
+  width: 80%;
+  max-width: 600px;
+}
+
 .formContainer {
-  background: rgb(231, 238, 255);
+  background: rgb(208, 218, 251);
   padding: 30px;
   font-family: sans-serif;
   font-size: 16px;
   border-radius: 10px;
+  border: 1px solid grey;
 }
 
 .formContainer * {
@@ -237,6 +243,7 @@ body {
 .formTitle {
   font-size: 1.5em;
   font-weight: 600;
+  margin-top: 20px;
 }
 
 .formItem {
@@ -246,7 +253,7 @@ body {
 
 .formLabel {
   font-weight: 200;
-  padding: 10px 0;
+  padding: 5px 0;
 }
 
 .formInput {
@@ -259,13 +266,14 @@ body {
   font-family: sans-serif;
   outline: none;
   border: 1px solid grey;
-  border-radius: 2px;
+  border-radius: 4px;
   background: white;
   /* transition: background 0.25s, border-color 0.25s, color 0.25s; */
 }
 
 .formInput:focus {
   background: #f9f9f9;
+  border-color: rgb(40, 59, 250);
 }
 
 .formInput::placeholder {
@@ -281,7 +289,7 @@ body {
 }
 
 .formButton {
-  background: #e6f0f0;
+  background: white;
   padding: 4px 20px;
   border: 1px solid rgb(0, 83, 216);
   cursor: pointer;
@@ -290,6 +298,7 @@ body {
   line-height: 1.5;
   transition-property: background;
   transition-duration: 0.25s;
+  font-size: 14px;
 }
 
 .formButton:hover {
@@ -297,9 +306,17 @@ body {
   text-decoration: underline;
 }
 
+.formRadio {
+  font-size: 14px;
+  margin-top: 5px;
+}
+
 @media only screen and (max-width: 900px) {
   .inner {
     width: 60%;
+  }
+  .innerException {
+    width: 70%;
   }
 }
 
@@ -307,4 +324,32 @@ body {
   .inner {
     width: 85%;
   }
+  .innerException {
+    width: 90%;
+  }
+}
+
+.navBack {
+  background: transparent;
+  width: 100vw;
+  height: 40px;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.navBackLink {
+  margin-left: 0.5vw;
+  margin-top: auto;
+  margin-bottom: auto;
+  height: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  background: none;
+  color: blue;
+  cursor: pointer;
+  text-decoration: none !important;
+}
+
+.navBackLink:hover {
+  text-decoration: underline !important;
 }

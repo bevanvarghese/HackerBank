@@ -71,74 +71,105 @@ class Ask extends Component {
   render() {
     return (
       <Fragment>
-        <NavBack />
-        <div className='formContainer'>
-          <h2>Ask your question</h2>
-          <form>
-            Title
-            <br />
-            <input
-              type='text'
-              id='title'
-              name='title'
-              value={this.state.title}
-              onChange={this.handleChange}
-              required
-            />
-            <br />
-            <br />
-            Space
-            <br />
-            <input
-              type='radio'
-              name='space'
-              value='Algorithm'
-              onClick={this.handleSelect}
-              required
-            />
-            Algorithm
-            <input
-              type='radio'
-              name='space'
-              value='Machine Learning'
-              onClick={this.handleSelect}
-              required
-            />
-            Machine Learning
-            <input
-              type='radio'
-              name='space'
-              value='System'
-              onClick={this.handleSelect}
-              required
-            />
-            System
-            <input
-              type='radio'
-              name='space'
-              value='JavaScript'
-              onClick={this.handleSelect}
-              required
-            />
-            JavaScript
-            <br />
-            <br />
-            Content
-            <br />
-            <textarea
-              id='content'
-              name='content'
-              rows='4'
-              cols='50'
-              value={this.state.content}
-              onChange={this.handleChange}
-              required
-            />
-            <br />
-            <br />
-            <button onClick={this.handleSubmit}>Submit</button>
-          </form>
-          <p style={{ color: 'red' }}>{this.state.errors}</p>
+        <div className='navBack'>
+          <button
+            onClick={() => this.props.history.push('/')}
+            className='navBackLink'
+            to='/'
+          >
+            Back
+          </button>
+        </div>
+        <div className='outer'>
+          <div className='middle'>
+            <div className='inner innerException'>
+              <div className='formContainer'>
+                <p className='formTitle'>Ask your question</p>
+                <form>
+                  <div className='formItem'>
+                    <label for='title' className='formLabel'>
+                      Title
+                    </label>
+                    <input
+                      className='formInput'
+                      type='text'
+                      id='title'
+                      name='title'
+                      value={this.state.title}
+                      onChange={this.handleChange}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <br />
+                    <label for='space' className='formLabel'>
+                      Space
+                    </label>
+                    <br />
+                    <input
+                      type='radio'
+                      name='space'
+                      value='Algorithm'
+                      onClick={this.handleSelect}
+                      required
+                    />
+                    <span className='formRadio'>Algorithm</span>
+                    <input
+                      type='radio'
+                      name='space'
+                      value='Machine Learning'
+                      onClick={this.handleSelect}
+                      required
+                    />
+                    <span className='formRadio'>Machine Learning</span>
+                    <input
+                      type='radio'
+                      name='space'
+                      value='System'
+                      onClick={this.handleSelect}
+                      required
+                    />
+                    <span className='formRadio'>System</span>
+                    <input
+                      type='radio'
+                      name='space'
+                      value='JavaScript'
+                      onClick={this.handleSelect}
+                      required
+                    />
+                    <span className='formRadio'>JavaScript</span>
+                    <br />
+                    <br />
+                  </div>
+                  <div className='formItem'>
+                    <label for='content' className='formLabel'>
+                      Content
+                    </label>
+                    <textarea
+                      className='formInput'
+                      id='content'
+                      name='content'
+                      rows='4'
+                      cols='70'
+                      value={this.state.content}
+                      onChange={this.handleChange}
+                      required
+                    />
+                  </div>
+
+                  {this.state.errors && (
+                    <span class='formError'>
+                      <br />
+                      {this.state.errors}
+                      <br />
+                    </span>
+                  )}
+                  <br />
+                  <button onClick={this.handleSubmit}>Submit</button>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       </Fragment>
     );
