@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { BsFillTriangleFill, BsTriangle } from 'react-icons/bs';
+import { BsFillTriangleFill, BsTriangle, BsCheckCircle } from 'react-icons/bs';
 // const TopBar = ({ viewHot, searchTerm, handleChange, loggedIn, logout }) => {
 //   return (
 
@@ -124,6 +124,16 @@ class Main extends Component {
       });
   };
 
+  handleExpansion = (qid) => {
+    if (this.state.expandedQuestionId == qid) {
+      this.setState({ expandedQuestionId: '' });
+    } else if (this.state.expandedQuestionId == '') {
+      this.setState({ expandedQuestionId: qid });
+    } else {
+      this.setState({ expandedQuestionId: qid });
+    }
+  };
+
   render() {
     const topbar = (
       <div className='topbar'>
@@ -207,67 +217,92 @@ class Main extends Component {
           question.title.toLowerCase().includes(searchQuery)
       )
       .map((question) => (
-        <div className='questionCardMain'>
-          <div className='questionHeadMain'>
-            <span className='questionSpace' style={{ float: 'none' }}>
-              {question.space}
-            </span>
-          </div>
-          <div className='questionFloat'>
-            <div className='questionLeft'>
-              <span className='questionAsker'>{question.creatorName}</span>
-              <span className='createdOn'>
-                {this.convertTimeToDate(question.time)}
+        <div>
+          <div className='questionCardMain'>
+            <div className='questionHeadMain'>
+              <span className='questionSpace' style={{ float: 'none' }}>
+                {question.space}
               </span>
             </div>
-            <div className='questionRight'>
-              <p
-                className='questionTitle'
-                onClick={() =>
-                  this.props.history.push(`/question/${question.qid}`)
-                }
-                style={{ cursor: 'pointer' }}
+            <div className='questionFloat'>
+              <div className='questionLeft'>
+                <span className='questionAsker'>{question.creatorName}</span>
+                <span className='createdOn'>
+                  {this.convertTimeToDate(question.time)}
+                </span>
+              </div>
+              <div className='questionRight'>
+                <p
+                  className='questionTitle'
+                  onClick={() =>
+                    this.props.history.push(`/question/${question.qid}`)
+                  }
+                  style={{ cursor: 'pointer' }}
+                >
+                  {question.title}
+                </p>
+                <p className='questionContent'>{question.content}</p>
+              </div>
+            </div>
+            <div className='questionFooter'>
+              {!this.state.uid ? (
+                <button className='voteButton' disabled='true'>
+                  <BsTriangle />
+                  <span> Upvote</span>
+                </button>
+              ) : question.upvotes.includes(this.state.uid) ? (
+                <button
+                  className='voteButton'
+                  onClick={() =>
+                    this.unlikeQuestion(
+                      question.qid,
+                      this.state.questions.indexOf(question)
+                    )
+                  }
+                >
+                  <BsFillTriangleFill />
+                  <span> Unvote</span>
+                </button>
+              ) : (
+                <button
+                  className='voteButton'
+                  onClick={() =>
+                    this.likeQuestion(
+                      question.qid,
+                      this.state.questions.indexOf(question)
+                    )
+                  }
+                >
+                  <BsTriangle />
+                  <span> Upvote</span>
+                </button>
+              )}
+              <small>({question.upvotes.length}) </small>
+              <button
+                className='voteButton'
+                onClick={() => this.handleExpansion(question.qid)}
               >
-                {question.title}
-              </p>
-              <p className='questionContent'>{question.content}</p>
+                <BsCheckCircle />
+                <span> Answers</span>
+              </button>
+              <small>({question.answers.length})</small>
             </div>
           </div>
-          <div className='questionFooter'>
-            {!this.state.uid ? (
-              <button className='voteButton' disabled='true'>
-                <BsTriangle />
-                <span> Upvote</span>
-              </button>
-            ) : question.upvotes.includes(this.state.uid) ? (
-              <button
-                className='voteButton'
-                onClick={() =>
-                  this.unlikeQuestion(
-                    question.qid,
-                    this.state.questions.indexOf(question)
-                  )
-                }
-              >
-                <BsFillTriangleFill />
-                <span> Unvote</span>
-              </button>
-            ) : (
-              <button
-                className='voteButton'
-                onClick={() =>
-                  this.likeQuestion(
-                    question.qid,
-                    this.state.questions.indexOf(question)
-                  )
-                }
-              >
-                <BsTriangle />
-                <span> Upvote</span>
-              </button>
-            )}
-            <span> ({question.upvotes.length})</span>
-          </div>
+          {this.state.expandedQuestionId == question.qid &&
+            question.answers.map((answer) => (
+              <div className='answerCard'>
+                <div className='answerHead'>
+                  <span className='creator'>{answer.creatorName}</span>
+                  <span className='createdOn'>
+                    {' '}
+                    answered on {this.convertTimeToDate(answer.time)}
+                  </span>
+                </div>
+                <div className='answerBody'>
+                  <p className='answerContent'>{answer.content}</p>
+                </div>
+              </div>
+            ))}
         </div>
       ));
 
