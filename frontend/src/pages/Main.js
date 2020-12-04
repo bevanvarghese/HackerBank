@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-
+import { BsFillTriangleFill, BsTriangle } from 'react-icons/bs';
 // const TopBar = ({ viewHot, searchTerm, handleChange, loggedIn, logout }) => {
 //   return (
 
@@ -71,7 +71,57 @@ class Main extends Component {
   };
 
   redirectToAsk = (event) => {
-    this.props.history.push('ask');
+    this.props.history.push('/ask');
+  };
+
+  likeQuestion = (qid, qIndex) => {
+    const like = { uid: this.state.uid };
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(like),
+    };
+    fetch(`http://localhost:8000/questions/like/${qid}`, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          console.log({ errors: data.error });
+        } else if (data.message) {
+          var temp = this.state.questions;
+          temp[qIndex]['upvotes'] = [
+            ...temp[qIndex]['upvotes'],
+            this.state.uid,
+          ];
+          this.setState({
+            questions: temp,
+          });
+        }
+      });
+  };
+
+  unlikeQuestion = (qid, qIndex) => {
+    const like = { uid: this.state.uid };
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(like),
+    };
+    fetch(`http://localhost:8000/questions/unlike/${qid}`, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          console.log({ errors: data.error });
+        } else if (data.message) {
+          var temp = this.state.questions;
+          temp[qIndex]['upvotes'].splice(
+            temp[qIndex]['upvotes'].indexOf(this.state.uid),
+            1
+          );
+          this.setState({
+            questions: temp,
+          });
+        }
+      });
   };
 
   render() {
@@ -171,11 +221,53 @@ class Main extends Component {
               </span>
             </div>
             <div className='questionRight'>
-              <p className='questionTitle'>{question.title}</p>
+              <p
+                className='questionTitle'
+                onClick={() =>
+                  this.props.history.push(`/question/${question.qid}`)
+                }
+                style={{ cursor: 'pointer' }}
+              >
+                {question.title}
+              </p>
               <p className='questionContent'>{question.content}</p>
             </div>
           </div>
-          <div className='questionFooter'></div>
+          <div className='questionFooter'>
+            {!this.state.uid ? (
+              <button className='voteButton' disabled='true'>
+                <BsTriangle />
+                <span> Upvote</span>
+              </button>
+            ) : question.upvotes.includes(this.state.uid) ? (
+              <button
+                className='voteButton'
+                onClick={() =>
+                  this.unlikeQuestion(
+                    question.qid,
+                    this.state.questions.indexOf(question)
+                  )
+                }
+              >
+                <BsFillTriangleFill />
+                <span> Unvote</span>
+              </button>
+            ) : (
+              <button
+                className='voteButton'
+                onClick={() =>
+                  this.likeQuestion(
+                    question.qid,
+                    this.state.questions.indexOf(question)
+                  )
+                }
+              >
+                <BsTriangle />
+                <span> Upvote</span>
+              </button>
+            )}
+            <span> ({question.upvotes.length})</span>
+          </div>
         </div>
       ));
 
