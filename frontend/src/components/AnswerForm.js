@@ -4,6 +4,11 @@ class AnswerForm extends Component {
   constructor(props) {
     super(props);
 
+    this.makeActive = this.makeActive.bind(this);
+    this.makeinActive = this.makeinActive.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+
     this.state = {
       uid: props.uid,
       uname: props.uname,

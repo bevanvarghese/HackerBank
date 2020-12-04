@@ -11,6 +11,9 @@ class Login extends Component {
       password: '',
       errors: '',
     };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange = (event) => {

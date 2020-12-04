@@ -1,11 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { BsFillTriangleFill, BsTriangle, BsCheckCircle } from 'react-icons/bs';
-// const TopBar = ({ viewHot, searchTerm, handleChange, loggedIn, logout }) => {
-//   return (
-
-//   );
-// };
+import ShowMoreText from 'react-show-more-text';
 
 class Main extends Component {
   constructor(props) {
@@ -22,6 +18,17 @@ class Main extends Component {
       ansFormOpen: false,
       ansFormValue: '',
     };
+
+    this.logout = this.logout.bind(this);
+    this.viewHot = this.viewHot.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSpace = this.handleSpace.bind(this);
+    this.likeQuestion = this.likeQuestion.bind(this);
+    this.unlikeQuestion = this.unlikeQuestion.bind(this);
+    this.handleExpansion = this.handleExpansion.bind(this);
+    this.submitAnswer = this.submitAnswer.bind(this);
+    this.redirectToAsk = this.redirectToAsk.bind(this);
+    this.convertTimeToDate = this.convertTimeToDate.bind(this);
 
     fetch(`http://localhost:8000/questions`)
       .then((response) => response.json())
@@ -142,7 +149,8 @@ class Main extends Component {
     this.setState({ ansFormValue: event.target.value });
   };
 
-  submitAnswer = (qid, qIndex) => {
+  submitAnswer = (qid, qIndex, e) => {
+    e.preventDefault();
     const answer = {
       content: this.state.ansFormValue,
       creatorId: this.state.uid,
@@ -162,8 +170,9 @@ class Main extends Component {
             content: this.state.ansFormValue,
             creatorId: this.state.uid,
             creatorName: this.state.uname,
-            time: new Date(),
+            time: new Date().toISOString(),
           };
+          console.log(ans.time);
           temp[qIndex]['answers'] = [...temp[qIndex]['answers'], ans];
           this.setState({
             questions: temp,
@@ -281,7 +290,18 @@ class Main extends Component {
                 >
                   {question.title}
                 </p>
-                <p className='questionContent'>{question.content}</p>
+                <ShowMoreText
+                  lines={3}
+                  more='Show More'
+                  less='Show Less'
+                  className='questionContent'
+                  anchorClass='showMore'
+                  onClick={() => this.executeOnClick}
+                  expanded={false}
+                  width={0}
+                >
+                  {question.content}
+                </ShowMoreText>
               </div>
             </div>
             <div className='questionFooter'>
@@ -364,10 +384,11 @@ class Main extends Component {
                     <button
                       className='editQuestionButton'
                       disabled={this.state.ansFormValue == ''}
-                      onClick={() => {
+                      onClick={(e) => {
                         this.submitAnswer(
                           question.qid,
-                          this.state.questions.indexOf(question)
+                          this.state.questions.indexOf(question),
+                          e
                         );
                       }}
                     >

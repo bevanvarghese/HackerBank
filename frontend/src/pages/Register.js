@@ -12,6 +12,9 @@ export class Register extends Component {
       cPassword: '',
       errors: '',
     };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange = (event) => {

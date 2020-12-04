@@ -11,6 +11,10 @@ class Ask extends Component {
       content: '',
       errors: '',
     };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange = (event) => {

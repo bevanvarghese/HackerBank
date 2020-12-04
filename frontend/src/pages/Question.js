@@ -45,6 +45,15 @@ class Question extends Component {
       errors: '',
     };
 
+    this.convertTimeToDate = this.convertTimeToDate.bind(this);
+    this.deleteQuestion = this.deleteQuestion.bind(this);
+    this.showEdit = this.showEdit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.likeQuestion = this.likeQuestion.bind(this);
+    this.unlikeQuestion = this.unlikeQuestion.bind(this);
+
     const qid = this.props.match.params.qid;
     fetch(`http://localhost:8000/questions/${qid}`)
       .then((response) => response.json())
