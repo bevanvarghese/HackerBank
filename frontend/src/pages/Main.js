@@ -17,7 +17,6 @@ class Main extends Component {
       uname: '',
       questions: [],
       space: ['Algorithm', 'Machine Learning', 'System', 'JavaScript'],
-      sort: 'time',
       search: '',
       expandedQuestionId: '',
     };
@@ -33,7 +32,9 @@ class Main extends Component {
         }
       })
       .catch((err) => console.log(err));
+  }
 
+  componentDidMount() {
     if (localStorage.getItem('uid') != null) {
       this.setState({
         uid: localStorage.getItem('uid'),
@@ -55,7 +56,9 @@ class Main extends Component {
   };
 
   viewHot = () => {
-    this.setState({ sort: 'upvotes' });
+    var temp = this.state.questions;
+    temp = temp.sort((a, b) => b.upvotes.length - a.upvotes.length);
+    this.setState({ questions: temp });
   };
 
   handleChange = (event) => {
@@ -68,10 +71,6 @@ class Main extends Component {
   };
 
   render() {
-    // const right = ;
-
-    // console.log(this.state.questions);
-
     const topbar = (
       <div className='topbar'>
         <Link to='/'>Home</Link>
@@ -83,7 +82,7 @@ class Main extends Component {
           value={this.state.search}
         ></input>
         {this.state.loggedIn ? (
-          <Link to={this.logout}>Logout</Link>
+          <button onClick={this.logout}>Logout</button>
         ) : (
           <Fragment>
             <Link to='/login'>Login</Link>
@@ -143,6 +142,8 @@ class Main extends Component {
     );
 
     const searchQuery = this.state.search.toLowerCase();
+
+    console.log(this.state.questions);
 
     const questionCards = this.state.questions
       .filter((question) => this.state.space.includes(question.space))
