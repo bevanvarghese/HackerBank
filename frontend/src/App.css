@@ -146,3 +146,12 @@ body {
   float: left;
   padding: 10px;
 }
+
+.askQuestion {
+  float: right;
+  border: 1px solid blue;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  background: white;
+}

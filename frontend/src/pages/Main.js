@@ -70,6 +70,10 @@ class Main extends Component {
     console.log(this.state.space);
   };
 
+  redirectToAsk = (event) => {
+    this.props.history.push('ask');
+  };
+
   render() {
     const topbar = (
       <div className='topbar'>
@@ -179,6 +183,27 @@ class Main extends Component {
       <div>
         {topbar}
         {sidebar}
+        {this.state.loggedIn && (
+          <Fragment>
+            <button className='askQuestion' onClick={this.redirectToAsk}>
+              Ask Question
+            </button>
+            <br />
+            <div
+              className='questionCard'
+              style={{ marginTop: '20px', padding: '10px 20px' }}
+            >
+              <div className='answerHead'>
+                <span className='creator'>{this.state.uname}</span>
+                <div className='Placeholder'>
+                  <p onClick={this.redirectToAsk} style={{ cursor: 'pointer' }}>
+                    What is your question?
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Fragment>
+        )}
         {questionCards}
       </div>
     );
