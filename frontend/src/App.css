@@ -379,11 +379,51 @@ body {
   display: inline-block;
 }
 
+@media only screen and (max-width: 1200px) {
+  .topbar button {
+    margin: 0px;
+    /* border: 1px solid black; */
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .topbar button {
+    margin: 0px;
+    /* border: 1px solid green; */
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .topbar button {
+    margin: 0px;
+    /* border: 1px solid red; */
+  }
+}
+
 img {
   vertical-align: middle;
   height: 50px;
+  /* width: 12.5%; */
   cursor: pointer;
   border-radius: 5px;
+  float: left;
+}
+
+@media only screen and (max-width: 850px) {
+  img {
+    width: 150px;
+    height: auto;
+    float: none;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  img {
+    width: 125px;
+    height: auto;
+  }
 }
 
 .topbar button:hover {
