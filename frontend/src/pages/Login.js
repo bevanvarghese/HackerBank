@@ -63,7 +63,8 @@ class Login extends Component {
   render() {
     return (
       <Fragment>
-        <div className='navBack'>
+        <NavBack />
+        {/* <div className='navBack'>
           <button
             onClick={() => this.props.history.push('/')}
             className='navBackLink'
@@ -71,7 +72,7 @@ class Login extends Component {
           >
             Back
           </button>
-        </div>
+        </div> */}
         <div className='outer'>
           <div className='middle'>
             <div className='inner'>

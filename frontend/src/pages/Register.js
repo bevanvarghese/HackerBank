@@ -158,8 +158,7 @@ export class Register extends Component {
                   <br />
                   {this.state.errors && (
                     <span class='formError'>
-                      <br />
-                      {this.state.errors}
+                      -{this.state.errors}
                       <br />
                     </span>
                   )}

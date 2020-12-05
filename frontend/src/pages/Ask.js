@@ -71,14 +71,11 @@ class Ask extends Component {
   render() {
     return (
       <Fragment>
+        {/* <NavBack /> */}
         <div className='navBack'>
-          <button
-            onClick={() => this.props.history.push('/')}
-            className='navBackLink'
-            to='/'
-          >
+          <a className='navBackLink' href='/'>
             Back
-          </button>
+          </a>
         </div>
         <div className='outer'>
           <div className='middle'>
@@ -165,7 +162,9 @@ class Ask extends Component {
                     </span>
                   )}
                   <br />
-                  <button onClick={this.handleSubmit}>Submit</button>
+                  <button className='formButton' onClick={this.handleSubmit}>
+                    Submit
+                  </button>
                 </form>
               </div>
             </div>
