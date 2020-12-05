@@ -419,12 +419,12 @@ img {
   }
 }
 
-@media only screen and (max-width: 750px) {
+/* @media only screen and (max-width: 750px) {
   img {
     width: 125px;
     height: auto;
   }
-}
+} */
 
 .topbar button:hover {
   border: 0px solid white;
