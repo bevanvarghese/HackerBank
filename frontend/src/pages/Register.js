@@ -73,15 +73,7 @@ export class Register extends Component {
   render() {
     return (
       <Fragment>
-        <div className='navBack'>
-          <button
-            onClick={() => this.props.history.push('/')}
-            className='navBackLink'
-            to='/'
-          >
-            Back
-          </button>
-        </div>
+        <NavBack />
         <div className='outer'>
           <div className='middle'>
             <div className='inner'>

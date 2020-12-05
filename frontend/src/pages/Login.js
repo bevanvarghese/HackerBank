@@ -64,15 +64,6 @@ class Login extends Component {
     return (
       <Fragment>
         <NavBack />
-        {/* <div className='navBack'>
-          <button
-            onClick={() => this.props.history.push('/')}
-            className='navBackLink'
-            to='/'
-          >
-            Back
-          </button>
-        </div> */}
         <div className='outer'>
           <div className='middle'>
             <div className='inner'>

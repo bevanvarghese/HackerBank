@@ -71,12 +71,7 @@ class Ask extends Component {
   render() {
     return (
       <Fragment>
-        {/* <NavBack /> */}
-        <div className='navBack'>
-          <a className='navBackLink' href='/'>
-            Back
-          </a>
-        </div>
+        <NavBack />
         <div className='outer'>
           <div className='middle'>
             <div className='inner innerException'>
