@@ -1,5 +1,5 @@
 body {
-  background: rgb(231, 238, 255);
+  background: #e7eeff;
 }
 
 .questionCard {
@@ -352,4 +352,37 @@ body {
 
 .navBackLink:hover {
   text-decoration: underline !important;
+}
+
+.topbar {
+  top: 0;
+  width: 100vw;
+  text-align: center;
+  background-color: rgb(215, 227, 250);
+}
+
+.topbar button {
+  height: 100%;
+  cursor: pointer;
+  border: 0px solid white;
+  margin: 0px 30px;
+  padding: 0px 20px;
+  font-weight: bold;
+  background: transparent;
+  font-size: 16px;
+  line-height: 50px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+img {
+  vertical-align: middle;
+  height: 50px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.topbar button:hover {
+  border: 0px solid white;
+  background-color: #e7eeff;
 }

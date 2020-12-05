@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { BsFillTriangleFill, BsTriangle, BsCheckCircle } from 'react-icons/bs';
 import ShowMoreText from 'react-show-more-text';
+import logo from './logo.jpg';
 
 class Main extends Component {
   constructor(props) {
@@ -184,22 +185,45 @@ class Main extends Component {
   };
 
   render() {
+    // const logo = logo;
+
     const topbar = (
       <div className='topbar'>
-        <Link to='/'>Home</Link>
+        <img
+          src={logo}
+          alt='hackerbank'
+          onClick={() => window.location.reload()}
+          // align='left'
+        />
+
+        <button onClick={() => window.location.reload()}>Home</button>
         <button onClick={this.viewHot}>Hot</button>
         <input
           type='text'
           name='search'
           onChange={this.handleChange}
           value={this.state.search}
+          className='formInput'
+          style={{ width: '30%' }}
         ></input>
         {this.state.loggedIn ? (
-          <button onClick={this.logout}>Logout</button>
+          <button onClick={this.logout} className='loggerButton'>
+            Logout
+          </button>
         ) : (
           <Fragment>
-            <Link to='/login'>Login</Link>
-            <Link to='/register'>Register</Link>
+            <button
+              onClick={() => this.props.history.push('/login')}
+              className='loggerButton'
+            >
+              Login
+            </button>
+            <button
+              onClick={() => this.props.history.push('/register')}
+              className='loggerButton'
+            >
+              Register
+            </button>
           </Fragment>
         )}
       </div>
