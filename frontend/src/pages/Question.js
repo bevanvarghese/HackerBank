@@ -53,6 +53,8 @@ class Question extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.likeQuestion = this.likeQuestion.bind(this);
     this.unlikeQuestion = this.unlikeQuestion.bind(this);
+    this.handleAnsFormChange = this.handleAnsFormChange.bind(this);
+    this.submitAnswer = this.submitAnswer.bind(this);
 
     const qid = this.props.match.params.qid;
     fetch(`http://localhost:8000/questions/${qid}`)
@@ -68,6 +70,8 @@ class Question extends Component {
             askerName: data.creatorName,
             answers: data.answers,
             upvotes: data.upvotes,
+            ansFormOpen: false,
+            ansFormValue: '',
           });
         }
       })
@@ -196,6 +200,46 @@ class Question extends Component {
         } else if (data.message) {
           this.setState({
             upvotes: tempUpvotes,
+          });
+        }
+      });
+  };
+
+  handleAnsFormChange = (event) => {
+    this.setState({ ansFormValue: event.target.value });
+  };
+
+  submitAnswer = (e) => {
+    e.preventDefault();
+    const answer = {
+      content: this.state.ansFormValue,
+      creatorId: this.state.uid,
+      creatorName: this.state.uname,
+    };
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(answer),
+    };
+    fetch(
+      `http://localhost:8000/answers/create/${this.state.qid}`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.message) {
+          var temp = this.state.answers;
+          const ans = {
+            content: this.state.ansFormValue,
+            creatorId: this.state.uid,
+            creatorName: this.state.uname,
+            time: new Date().toISOString(),
+          };
+          temp = [...temp, ans];
+          this.setState({
+            answers: temp,
+            ansFormOpen: false,
+            ansFormValue: '',
           });
         }
       });
@@ -346,13 +390,56 @@ class Question extends Component {
         <div style={{ width: '90%', marginLeft: 'auto', marginRight: 'auto' }}>
           {questionCard}
           {answerCards}
-          {this.state.uid != '' && (
-            <AnswerForm
-              uid={this.state.uid}
-              uname={this.state.uname}
-              qid={this.props.match.params.qid}
-            />
-          )}
+          {this.state.uid != '' &&
+            (this.state.ansFormOpen ? (
+              <div className='answerForm'>
+                <div className='answerHead'>
+                  <span className='creator'>{this.state.uname}</span>
+                </div>
+                <div>
+                  <form>
+                    <textarea
+                      id='content'
+                      name='content'
+                      rows='4'
+                      cols='50'
+                      value={this.state.ansFormValue}
+                      onChange={this.handleAnsFormChange}
+                    />
+                    <br />
+                    <button
+                      className='editQuestionButton'
+                      disabled={this.state.ansFormValue == ''}
+                      onClick={(e) => {
+                        this.submitAnswer(e);
+                      }}
+                    >
+                      Submit
+                    </button>
+                    <button
+                      className='editQuestionButton'
+                      style={{ marginLeft: '10px' }}
+                      onClick={() =>
+                        this.setState({ ansFormValue: '', ansFormOpen: false })
+                      }
+                    >
+                      Cancel
+                    </button>
+                  </form>
+                </div>
+              </div>
+            ) : (
+              <div className='answerForm'>
+                <div className='answerHead'>
+                  <span className='creator'>{this.state.uname}</span>
+                </div>
+                <div className='Placeholder'>
+                  <p onClick={() => this.setState({ ansFormOpen: true })}>
+                    Post your new answer...
+                  </p>
+                </div>
+              </div>
+            ))}
         </div>
       </Fragment>
     );

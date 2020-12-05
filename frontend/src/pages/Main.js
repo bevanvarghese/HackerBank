@@ -185,8 +185,6 @@ class Main extends Component {
   };
 
   render() {
-    // const logo = logo;
-
     const topbar = (
       <div className='topbar'>
         <img
