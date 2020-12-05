@@ -85,6 +85,11 @@ body {
 
 .Placeholder {
   color: gray;
+  cursor: pointer;
+}
+
+.Placeholder:hover {
+  color: black;
 }
 
 .editQuestionButton {
@@ -117,6 +122,7 @@ body {
   color: black;
   cursor: pointer;
   padding: 5px;
+  outline: none;
 }
 
 .voteButton:hover {
@@ -161,6 +167,10 @@ body {
   border-radius: 5px;
   cursor: pointer;
   background: white;
+}
+
+.askQuestion:hover {
+  background: lightcyan;
 }
 
 .showMore {
@@ -358,7 +368,7 @@ body {
   top: 0;
   width: 100vw;
   text-align: center;
-  background-color: rgb(215, 227, 250);
+  background-color: #d7e3fa;
 }
 
 .topbar button {
@@ -385,4 +395,52 @@ img {
 .topbar button:hover {
   border: 0px solid white;
   background-color: #e7eeff;
+}
+
+.sidebar {
+  height: 100%;
+  width: 20%;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  background-color: transparent;
+  overflow-x: hidden;
+  padding-top: 70px;
+  border-right: 1px solid lightblue;
+}
+
+.sidebar button {
+  width: 100%;
+  background: none;
+  border: 0px solid red;
+  line-height: 2.5em;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 2px;
+  outline: none;
+}
+
+.sidebar button:hover {
+  background: #d7e3fa;
+}
+
+.main {
+  margin-left: 20%;
+}
+
+.mainContainer {
+  width: 90%;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.activeSpace {
+  background: red;
+}
+
+img {
+  left: 0;
+  /* position: fixed; */
 }

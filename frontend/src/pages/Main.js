@@ -207,21 +207,13 @@ class Main extends Component {
           style={{ width: '30%' }}
         ></input>
         {this.state.loggedIn ? (
-          <button onClick={this.logout} className='loggerButton'>
-            Logout
-          </button>
+          <button onClick={this.logout}>Logout</button>
         ) : (
           <Fragment>
-            <button
-              onClick={() => this.props.history.push('/login')}
-              className='loggerButton'
-            >
+            <button onClick={() => this.props.history.push('/login')}>
               Login
             </button>
-            <button
-              onClick={() => this.props.history.push('/register')}
-              className='loggerButton'
-            >
+            <button onClick={() => this.props.history.push('/register')}>
               Register
             </button>
           </Fragment>
@@ -231,50 +223,44 @@ class Main extends Component {
 
     const sidebar = (
       <div className='sidebar'>
-        <ul>
-          <button
-            name='Algorithm'
-            onClick={this.handleSpace}
-            className={
-              this.state.space == ['Algorithm']
-                ? 'activeSpace'
-                : 'inactiveSpace'
-            }
-          >
-            Algorithm
-          </button>
-          <button
-            name='Machine Learning'
-            onClick={this.handleSpace}
-            className={
-              this.state.space == ['Machine Learning']
-                ? 'activeSpace'
-                : 'inactiveSpace'
-            }
-          >
-            Machine Learning
-          </button>
-          <button
-            name='System'
-            onClick={this.handleSpace}
-            className={
-              this.state.space == ['System'] ? 'activeSpace' : 'inactiveSpace'
-            }
-          >
-            System
-          </button>
-          <button
-            name='JavaScript'
-            onClick={this.handleSpace}
-            className={
-              this.state.space == ['JavaScript']
-                ? 'activeSpace'
-                : 'inactiveSpace'
-            }
-          >
-            JavaScript
-          </button>
-        </ul>
+        <button
+          name='Algorithm'
+          onClick={this.handleSpace}
+          className={
+            this.state.space == ['Algorithm'] ? 'activeSpace' : 'inactiveSpace'
+          }
+        >
+          Algorithm
+        </button>
+        <button
+          name='Machine Learning'
+          onClick={this.handleSpace}
+          className={
+            this.state.space == ['Machine Learning']
+              ? 'activeSpace'
+              : 'inactiveSpace'
+          }
+        >
+          Machine Learning
+        </button>
+        <button
+          name='System'
+          onClick={this.handleSpace}
+          className={
+            this.state.space == ['System'] ? 'activeSpace' : 'inactiveSpace'
+          }
+        >
+          System
+        </button>
+        <button
+          name='JavaScript'
+          onClick={this.handleSpace}
+          className={
+            this.state.space == ['JavaScript'] ? 'activeSpace' : 'inactiveSpace'
+          }
+        >
+          JavaScript
+        </button>
       </div>
     );
 
@@ -449,28 +435,35 @@ class Main extends Component {
       <div>
         {topbar}
         {sidebar}
-        {this.state.loggedIn && (
-          <Fragment>
-            <button className='askQuestion' onClick={this.redirectToAsk}>
-              Ask Question
-            </button>
-            <br />
-            <div
-              className='questionCard'
-              style={{ marginTop: '20px', padding: '10px 20px' }}
-            >
-              <div className='answerHead'>
-                <span className='creator'>{this.state.uname}</span>
-                <div className='Placeholder'>
-                  <p onClick={this.redirectToAsk} style={{ cursor: 'pointer' }}>
-                    What is your question?
-                  </p>
+        <div className='main'>
+          <div className='mainContainer'>
+            {this.state.loggedIn && (
+              <Fragment>
+                <button className='askQuestion' onClick={this.redirectToAsk}>
+                  Ask Question
+                </button>
+                <br />
+                <div
+                  className='questionCard'
+                  style={{ marginTop: '20px', padding: '10px 20px' }}
+                >
+                  <div className='answerHead'>
+                    <span className='creator'>{this.state.uname}</span>
+                    <div className='Placeholder'>
+                      <p
+                        onClick={this.redirectToAsk}
+                        style={{ cursor: 'pointer' }}
+                      >
+                        What is your question?
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </Fragment>
-        )}
-        {questionCards}
+              </Fragment>
+            )}
+            {questionCards}
+          </div>
+        </div>
       </div>
     );
   }

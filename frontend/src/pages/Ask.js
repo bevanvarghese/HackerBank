@@ -103,6 +103,7 @@ class Ask extends Component {
                       name='space'
                       value='Algorithm'
                       onClick={this.handleSelect}
+                      style={{ cursor: 'pointer' }}
                       required
                     />
                     <span className='formRadio'>Algorithm</span>
@@ -111,6 +112,7 @@ class Ask extends Component {
                       name='space'
                       value='Machine Learning'
                       onClick={this.handleSelect}
+                      style={{ cursor: 'pointer' }}
                       required
                     />
                     <span className='formRadio'>Machine Learning</span>
@@ -119,6 +121,7 @@ class Ask extends Component {
                       name='space'
                       value='System'
                       onClick={this.handleSelect}
+                      style={{ cursor: 'pointer' }}
                       required
                     />
                     <span className='formRadio'>System</span>
@@ -127,6 +130,7 @@ class Ask extends Component {
                       name='space'
                       value='JavaScript'
                       onClick={this.handleSelect}
+                      style={{ cursor: 'pointer' }}
                       required
                     />
                     <span className='formRadio'>JavaScript</span>
