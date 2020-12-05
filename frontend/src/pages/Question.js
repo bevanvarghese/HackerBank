@@ -249,6 +249,7 @@ class Question extends Component {
             creatorId: this.state.uid,
             creatorName: this.state.uname,
             time: new Date().toISOString(),
+            aid: data.aid,
           };
           temp = [...temp, ans];
           this.setState({
@@ -273,6 +274,7 @@ class Question extends Component {
   };
 
   render() {
+    console.log(this.state.answers);
     const editAndDel =
       this.state.uid == this.state.askerId ? (
         <span className='editDelete'>

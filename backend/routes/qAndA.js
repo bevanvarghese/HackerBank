@@ -160,7 +160,9 @@ exports.createAnswer = (req, res) => {
   });
   newAnswer
     .save()
-    .then(() => res.status(200).json({ message: 'Answer added.' }))
+    .then((doc) =>
+      res.status(200).json({ message: 'Answer added.', aid: doc._id })
+    )
     .catch((err) => res.status(400).json({ error: err }));
 };
 
