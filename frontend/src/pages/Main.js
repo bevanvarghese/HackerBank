@@ -277,40 +277,42 @@ class Main extends Component {
         <div>
           <div className='questionCardMain'>
             <div className='questionHeadMain'>
-              <span className='questionSpace' style={{ float: 'none' }}>
+              <span
+                className='questionSpace qSpaceAdjust'
+                style={{ float: 'none' }}
+              >
                 {question.space}
               </span>
             </div>
-            <div className='questionFloat'>
-              <div className='questionLeft'>
-                <span className='questionAsker'>{question.creatorName}</span>
-                <span className='createdOn'>
-                  {this.convertTimeToDate(question.time)}
-                </span>
-              </div>
-              <div className='questionRight'>
-                <p
-                  className='questionTitle'
-                  onClick={() =>
-                    this.props.history.push(`/question/${question.qid}`)
-                  }
-                  style={{ cursor: 'pointer' }}
-                >
-                  {question.title}
-                </p>
-                <ShowMoreText
-                  lines={3}
-                  more='Show More'
-                  less='Show Less'
-                  className='questionContent'
-                  anchorClass='showMore'
-                  onClick={() => this.executeOnClick}
-                  expanded={false}
-                  width={0}
-                >
-                  {question.content}
-                </ShowMoreText>
-              </div>
+            <div className='questionMain'>
+              <span className='creator'>{question.creatorName}</span>
+              <span className='createdOn'>
+                {' '}
+                posted on {this.convertTimeToDate(question.time)}
+              </span>
+            </div>
+            <div className='questionBody'>
+              <p
+                className='questionTitle'
+                onClick={() =>
+                  this.props.history.push(`/question/${question.qid}`)
+                }
+                style={{ cursor: 'pointer' }}
+              >
+                {question.title}
+              </p>
+              <ShowMoreText
+                lines={3}
+                more='Show More'
+                less='Show Less'
+                className='questionContent'
+                anchorClass='showMore'
+                onClick={() => this.executeOnClick}
+                expanded={false}
+                width={0}
+              >
+                {question.content}
+              </ShowMoreText>
             </div>
             <div className='questionFooter'>
               {!this.state.uid ? (

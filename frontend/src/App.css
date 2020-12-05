@@ -27,12 +27,6 @@ body {
   border-radius: 5px;
 }
 
-.questionSpace {
-  border: 1px solid blue;
-  padding: 2px;
-  border-radius: 5px;
-}
-
 .questionMain {
   margin-top: 5px;
   margin-bottom: 5px;
