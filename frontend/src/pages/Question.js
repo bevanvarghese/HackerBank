@@ -5,7 +5,16 @@ import AnswerForm from '../components/AnswerForm';
 import DeleteAnswer from '../components/DeleteAnswer';
 import { BsFillTriangleFill, BsTriangle } from 'react-icons/bs';
 
-const Answer = ({ creatorId, creatorName, time, content, uid, aid }) => {
+const Answer = ({
+  creatorId,
+  creatorName,
+  time,
+  content,
+  uid,
+  deleteAnswer,
+  aIndex,
+  aid,
+}) => {
   return (
     <div className='answerCard'>
       <div className='answerHead'>
@@ -13,7 +22,7 @@ const Answer = ({ creatorId, creatorName, time, content, uid, aid }) => {
         <span className='createdOn'> answered on {time}</span>
         {uid == creatorId && (
           <span className='editDelete'>
-            <DeleteAnswer aid={aid} />
+            <button onClick={() => deleteAnswer(aIndex, aid)}>delete</button>
           </span>
         )}
       </div>
@@ -47,6 +56,7 @@ class Question extends Component {
 
     this.convertTimeToDate = this.convertTimeToDate.bind(this);
     this.deleteQuestion = this.deleteQuestion.bind(this);
+    this.deleteAnswer = this.deleteAnswer.bind(this);
     this.showEdit = this.showEdit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
@@ -250,6 +260,18 @@ class Question extends Component {
       });
   };
 
+  deleteAnswer = (aIndex, aid) => {
+    fetch(`http://localhost:8000/answers/delete/${aid}`, {
+      method: 'DELETE',
+    })
+      .then((res) => res.json()) // or res.json()
+      .then((res) => {
+        var temp = this.state.answers;
+        temp.splice(aIndex, 1);
+        this.setState({ asnwers: temp });
+      });
+  };
+
   render() {
     const editAndDel =
       this.state.uid == this.state.askerId ? (
@@ -386,8 +408,13 @@ class Question extends Component {
         creatorId={answer.creatorId}
         uid={this.state.uid}
         aid={answer.aid}
+        deleteAnswer={this.deleteAnswer}
+        aIndex={this.state.answers.indexOf(answer)}
+        aid={answer.aid}
       />
     ));
+
+    console.log(this.state.answers);
 
     return (
       <Fragment>
