@@ -148,7 +148,12 @@ class Question extends Component {
           if (data.error) {
             this.setState({ errors: data.error });
           } else if (data.message) {
-            window.location.reload();
+            this.setState({
+              title: question.title,
+              content: question.content,
+              space: question.space,
+              edit: false,
+            });
           }
         })
         .catch((err) =>
